@@ -28,4 +28,42 @@ public class AppTest
         assertEquals(3, App.add("1,2"));
         assertEquals(42, App.add("0,42"));
     }
+
+    @Test
+    public void test2() {
+        assertEquals(10, App.add("1,2,3,4"));
+    }
+
+    @Test
+    public void test3() {
+        assertEquals(10, App.add("1\n2,3,4"));
+    }
+
+    @Test
+    public void test4() {
+        assertEquals(10, App.add("//?\n1\n2?3?4"));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test5() {
+        App.add("//?\n1\n2?3?4?-6");
+    }
+
+    @Test
+    public void test5a() {
+        try {
+            App.add("//?\n1\n2?3?4?-6");
+        } catch (IllegalArgumentException e) {
+            assertEquals("negatives not allowed: [-6]", e.getMessage());
+        }
+    }
+
+    @Test
+    public void test5b() {
+        try {
+            App.add("//?\n1\n2?3?4?-6?-1");
+        } catch (IllegalArgumentException e) {
+            assertEquals("negatives not allowed: [-6, -1]", e.getMessage());
+        }
+    }
 }
